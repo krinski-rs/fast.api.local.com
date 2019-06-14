@@ -1,0 +1,25 @@
+App\Entity\Redes\ModeloSwitch:
+    type: entity
+    table: redes.modelo_switch
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nome:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        ativo:
+            type: boolean
+            nullable: false
+            options:
+                default: true
+    lifecycleCallbacks: {  }

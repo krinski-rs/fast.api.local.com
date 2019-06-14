@@ -1,0 +1,31 @@
+App\Entity\Redes\Servico:
+    type: entity
+    table: redes.servico
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nome:
+            type: string
+            nullable: false
+            length: 50
+            options:
+                fixed: false
+        ativo:
+            type: boolean
+            nullable: false
+            options:
+                default: true
+        dataCadastro:
+            type: time
+            nullable: false
+            options:
+                default: now()
+            column: data_cadastro
+    lifecycleCallbacks: {  }

@@ -1,22 +1,78 @@
 doctrine:
     dbal:
         # configure these for your database server
-        driver: 'pdo_mysql'
-        server_version: '5.7'
-        charset: utf8mb4
-        default_table_options:
-            charset: utf8mb4
-            collate: utf8mb4_unicode_ci
-
-        url: '%env(resolve:DATABASE_URL)%'
+        default_connection: default
+#        driver: 'pdo_mysql'
+#        server_version: '5.7'
+#        charset: utf8mb4
+#        default_table_options:
+#            charset: utf8mb4
+#            collate: utf8mb4_unicode_ci
+#
+#        url: '%env(resolve:DATABASE_URL)%'
+        connections:
+            default:
+                driver:   '%env(resolve:VOGEL_DRIVER)%'
+                host:     '%env(resolve:VOGEL_HOST)%'
+                port:     '%env(resolve:VOGEL_PORT)%'
+                dbname:   '%env(resolve:VOGEL_DBNAME)%'
+                user:     '%env(resolve:VOGEL_USER)%'
+                password: '%env(resolve:VOGEL_PASSWORD)%'
+                charset:  '%env(resolve:VOGEL_CHARSET)%'
+#                mapping_types:
+#                    point: point
+#                    tipo_pessoa: pessoas.tipo_pessoa
+#                    tipo_nome_pessoa: pessoas.tipo_nome_pessoa
+#                    tipo_endereco_pessoa: pessoas.tipo_endereco_pessoa
+#                    nacionalidade_pessoa: pessoas.nacionalidade_pessoa
+#                    tipo_relacionamento_pessoa: pessoas.tipo_relacionamento_pessoa
+#                    tipo_documento: pessoas.tipo_documento
+#                schema_filter: '/^(redes.)/'
+            redes:
+                driver:   '%env(resolve:VOGEL_DRIVER)%'
+                host:     '%env(resolve:VOGEL_HOST)%'
+                port:     '%env(resolve:VOGEL_PORT)%'
+                dbname:   '%env(resolve:VOGEL_DBNAME)%'
+                user:     '%env(resolve:VOGEL_USER)%'
+                password: '%env(resolve:VOGEL_PASSWORD)%'
+                charset:  '%env(resolve:VOGEL_CHARSET)%'
+#                mapping_types:
+#                    point: point
+#                    tipo_pessoa: pessoas.tipo_pessoa
+#                    tipo_nome_pessoa: pessoas.tipo_nome_pessoa
+#                    tipo_endereco_pessoa: pessoas.tipo_endereco_pessoa
+#                    nacionalidade_pessoa: pessoas.nacionalidade_pessoa
+#                    tipo_relacionamento_pessoa: pessoas.tipo_relacionamento_pessoa
+#                    tipo_documento: pessoas.tipo_documento
+                schema_filter: '/^(redes.)/'
     orm:
-        auto_generate_proxy_classes: true
-        naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
-        mappings:
-            App:
-                is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
+        default_entity_manager: default
+        entity_managers:
+            default:
+                connection: default
+                mappings:
+                    App:
+                        is_bundle: false
+                        type: yml
+                        dir: '%kernel.project_dir%/config/doctrine'
+                        prefix: 'App\Entity'
+                        alias: App\Entity
+            redes:
+                connection: redes
+                mappings:
+                    App:
+                        is_bundle: false
+                        type: yml
+                        dir: '%kernel.project_dir%/config/doctrine'
+                        prefix: 'App\Entity'
+                        alias: App\Entity
+#        auto_generate_proxy_classes: true
+#        naming_strategy: doctrine.orm.naming_strategy.underscore
+#        auto_mapping: true
+#        mappings:
+#            App:
+#                is_bundle: false
+#                type: annotation
+#                dir: '%kernel.project_dir%/src/Entity'
+#                prefix: 'App\Entity'
+#                alias: App
