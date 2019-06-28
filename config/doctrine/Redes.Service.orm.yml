@@ -1,6 +1,6 @@
-App\Entity\Redes\Servico:
+App\Entity\Redes\Service:
     type: entity
-    table: redes.servico
+    table: redes.service
     id:
         id:
             type: integer
@@ -11,21 +11,25 @@ App\Entity\Redes\Servico:
             generator:
                 strategy: SEQUENCE
     fields:
-        nome:
+        name:
             type: string
             nullable: false
-            length: 50
+            length: 100
             options:
                 fixed: false
-        ativo:
+        active:
             type: boolean
             nullable: false
             options:
                 default: true
-        dataCadastro:
-            type: time
+        createdAt:
+            type: datetime
             nullable: false
             options:
                 default: now()
-            column: data_cadastro
+            column: created_at
+        removedAt:
+            type: datetime
+            nullable: true
+            column: removed_at
     lifecycleCallbacks: {  }

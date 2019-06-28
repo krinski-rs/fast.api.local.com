@@ -1,0 +1,63 @@
+App\Entity\Redes\Switchs:
+    type: entity
+    table: redes.switchs
+    indexes:
+        IDX_25D50C7ED5CA9E6:
+            columns:
+                - service_id
+        IDX_25D50C75BC0921E:
+            columns:
+                - switch_model_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 100
+            options:
+                fixed: false
+        active:
+            type: boolean
+            nullable: false
+            options:
+                default: true
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: now()
+            column: created_at
+        removedAt:
+            type: datetime
+            nullable: true
+            column: removed_at
+    manyToOne:
+        service:
+            targetEntity: App\Entity\Redes\Service
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                service_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        switchModel:
+            targetEntity: App\Entity\Redes\SwitchModel
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                switch_model_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

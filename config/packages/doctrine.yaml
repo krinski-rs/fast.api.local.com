@@ -2,6 +2,10 @@ doctrine:
     dbal:
         # configure these for your database server
         default_connection: default
+        types:
+            redes.marca_switch:
+                class:                App\DBAL\Type\Enum\Redes\MarcaSwitchType
+                commented:            true
 #        driver: 'pdo_mysql'
 #        server_version: '5.7'
 #        charset: utf8mb4
@@ -19,15 +23,8 @@ doctrine:
                 user:     '%env(resolve:VOGEL_USER)%'
                 password: '%env(resolve:VOGEL_PASSWORD)%'
                 charset:  '%env(resolve:VOGEL_CHARSET)%'
-#                mapping_types:
-#                    point: point
-#                    tipo_pessoa: pessoas.tipo_pessoa
-#                    tipo_nome_pessoa: pessoas.tipo_nome_pessoa
-#                    tipo_endereco_pessoa: pessoas.tipo_endereco_pessoa
-#                    nacionalidade_pessoa: pessoas.nacionalidade_pessoa
-#                    tipo_relacionamento_pessoa: pessoas.tipo_relacionamento_pessoa
-#                    tipo_documento: pessoas.tipo_documento
-#                schema_filter: '/^(redes.)/'
+                mapping_types:
+                    marca_switch: redes.marca_switch
             redes:
                 driver:   '%env(resolve:VOGEL_DRIVER)%'
                 host:     '%env(resolve:VOGEL_HOST)%'
@@ -36,14 +33,8 @@ doctrine:
                 user:     '%env(resolve:VOGEL_USER)%'
                 password: '%env(resolve:VOGEL_PASSWORD)%'
                 charset:  '%env(resolve:VOGEL_CHARSET)%'
-#                mapping_types:
-#                    point: point
-#                    tipo_pessoa: pessoas.tipo_pessoa
-#                    tipo_nome_pessoa: pessoas.tipo_nome_pessoa
-#                    tipo_endereco_pessoa: pessoas.tipo_endereco_pessoa
-#                    nacionalidade_pessoa: pessoas.nacionalidade_pessoa
-#                    tipo_relacionamento_pessoa: pessoas.tipo_relacionamento_pessoa
-#                    tipo_documento: pessoas.tipo_documento
+                mapping_types:
+                    marca_switch: redes.marca_switch
                 schema_filter: '/^(redes.)/'
     orm:
         default_entity_manager: default
@@ -56,7 +47,7 @@ doctrine:
                         type: yml
                         dir: '%kernel.project_dir%/config/doctrine'
                         prefix: 'App\Entity'
-                        alias: App\Entity
+                        alias: AppEntity
             redes:
                 connection: redes
                 mappings:
@@ -65,7 +56,7 @@ doctrine:
                         type: yml
                         dir: '%kernel.project_dir%/config/doctrine'
                         prefix: 'App\Entity'
-                        alias: App\Entity
+                        alias: AppEntity
 #        auto_generate_proxy_classes: true
 #        naming_strategy: doctrine.orm.naming_strategy.underscore
 #        auto_mapping: true

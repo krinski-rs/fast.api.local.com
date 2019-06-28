@@ -1,0 +1,3 @@
+service:
+    prefix: /service
+    resource: './service/routes.yaml'

@@ -5,6 +5,21 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
+    cors:
+        allowed_origin:
+            - http://fast.local.com:3000
+        allowed_headers:
+            - AccessToken
+            - Content-Type
+            - AuthVersion
+            - ApiKey
+            - Cookie
+            - Accept
+            - Origin
+            - Authorization
+    sso:
+        url_base: "http://sso.local.com"
+        cookie_name: "sso"
 
 services:
     # default configuration for services in *this* file
@@ -26,3 +41,39 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+        
+    App\Services\SSO\AuthExceptions:
+        public: false
+            
+    auth_exception:
+          class: App\Services\SSO\AuthExceptions
+          public: true
+        
+    App\Services\SSO\SSoClient:
+        public: false
+            
+    sso_client:
+          class: App\Services\SSO\SSoClient
+          public: true
+        
+    App\EventListener\SSOAuthEventListener:
+        public: false
+        arguments: ['%cors%', "@logger", "@auth_exception", "@sso_client"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 300 }
+
+    services.service:
+          alias: App\Services\Service
+          public: true
+
+    App\Services\Service:
+          public: false
+          arguments: ["@doctrine", "@logger"]
+          
+          
+    App\Controller\Service\ServiceController:
+        arguments: ['@services.service', '@logger']
+
+    
