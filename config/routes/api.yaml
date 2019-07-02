@@ -1,3 +1,7 @@
 service:
     prefix: /service
     resource: './service/routes.yaml'
+switch_model:
+    prefix: /switchmodel
+    resource: './switchmodel/routes.yaml'
+    

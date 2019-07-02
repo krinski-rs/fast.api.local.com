@@ -1,11 +1,11 @@
-post_pdv:
+post_service:
     path: /
     controller: 'App\Controller\Service\ServiceController::postService'
     methods: [POST]
     defaults:
         _format: json
         
-get_pdv:
+get_service:
     path: /{idService}
     controller: 'App\Controller\Service\ServiceController::getService'
     methods: [GET]
@@ -14,14 +14,14 @@ get_pdv:
     requirements:
         idService: '\d+'
         
-list_pdv:
+list_service:
     path: /
     controller: 'App\Controller\Service\ServiceController::getServices'
     methods: [GET]
     defaults:
         _format: json
         
-delete_pdv:
+delete_service:
     path: /{idService}
     controller: 'App\Controller\Service\ServiceController::deleteService'
     methods: [DELETE]
@@ -30,7 +30,7 @@ delete_pdv:
     requirements:
         idService: '\d+'
         
-put_pdv:
+put_service:
     path: /{idService}
     controller: 'App\Controller\Service\ServiceController::putService'
     methods: [PUT]
@@ -39,7 +39,7 @@ put_pdv:
     requirements:
         idService: '\d+'
         
-patch_pdv:
+patch_service:
     path: /{idService}
     controller: 'App\Controller\Service\ServiceController::patchService'
     methods: [PATCH]

@@ -19,10 +19,10 @@ final class MarcaSwitchType extends AbstractEnumType
      * {@inheritdoc}
      */
     protected static $choices = [
-        self::LINKSYS   => 1,
-        self::EXTREME   => 2,
-        self::DATACOM   => 3,
-        self::CISCO     => 4
+        0 => self::LINKSYS,
+        1 => self::EXTREME,
+        2 => self::DATACOM,
+        3 => self::CISCO
     ];
 }
 

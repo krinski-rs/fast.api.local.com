@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\Service;
+namespace App\Services\SwitchModel;
 
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManager;
@@ -13,12 +13,12 @@ class Listing
         $this->objEntityManager = $objEntityManager;
     }
     
-    public function get(int $idService)
+    public function get(int $idSwitchModel)
     {
         try {
-            $objRepositoryService = $this->objEntityManager->getRepository('AppEntity:Redes\Service');
-            $objService = $objRepositoryService->find($idService);
-            return $objService;
+            $objRepositorySwitchModel = $this->objEntityManager->getRepository('AppEntity:Redes\SwitchModel');
+            $objSwitchModel = $objRepositorySwitchModel->find($idSwitchModel);
+            return $objSwitchModel;
         } catch (\RuntimeException $e){
             throw $e;
         } catch (\Exception $e){
@@ -29,10 +29,10 @@ class Listing
     public function list(Request $objRequest)
     {
         try {
-            $objRepositoryService = $this->objEntityManager->getRepository('AppEntity:Redes\Service');
+            $objRepositorySwitchModel = $this->objEntityManager->getRepository('AppEntity:Redes\SwitchModel');
             $criteria = [];
             
-            $objQueryBuilder = $objRepositoryService->createQueryBuilder('serv');
+            $objQueryBuilder = $objRepositorySwitchModel->createQueryBuilder('serv');
             $objExprEq = $objQueryBuilder->expr()->isNull('serv.removedAt');
             $objQueryBuilder->andWhere($objExprEq);
             
@@ -56,8 +56,8 @@ class Listing
             if(count($criteria)){
                 $objQueryBuilder->setParameters($criteria);
             }
-            $arrayService = $objQueryBuilder->getQuery()->getResult();
-            return $arrayService;
+            $arraySwitchModel = $objQueryBuilder->getQuery()->getResult();
+            return $arraySwitchModel;
         } catch (\RuntimeException $e){
             throw $e;
         } catch (\Exception $e){
