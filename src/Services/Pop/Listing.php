@@ -32,31 +32,48 @@ class Listing
             $objRepositoryPop = $this->objEntityManager->getRepository('AppEntity:Redes\Pop');
             $criteria = [];
             
-            $objQueryBuilder = $objRepositoryPop->createQueryBuilder('serv');
-            $objExprEq = $objQueryBuilder->expr()->isNull('serv.removedAt');
+            $objQueryBuilder = $objRepositoryPop->createQueryBuilder('pop');
+            $objExprEq = $objQueryBuilder->expr()->isNull('pop.removedAt');
             $objQueryBuilder->andWhere($objExprEq);
             
             if($objRequest->get('name', false)){
-                $objExprLike = $objQueryBuilder->expr()->like('serv.name', ':name');
+                $objExprLike = $objQueryBuilder->expr()->like('pop.name', ':name');
                 $objQueryBuilder->andWhere($objExprLike);
                 $criteria['name'] = "%{$objRequest->get('name', null)}%";
             }
             
             if($objRequest->get('active', false)){
-                $objExprEq = $objQueryBuilder->expr()->eq('serv.active', ':active');
+                $objExprEq = $objQueryBuilder->expr()->eq('pop.active', ':active');
                 $objQueryBuilder->andWhere($objExprEq);
                 $criteria['active'] = $objRequest->get('active', null);
             }
             
             if($objRequest->get('createdAt', false)){
-                $objExprEq = $objQueryBuilder->expr()->eq('serv.createdAt', ':createdAt');
+                $objExprEq = $objQueryBuilder->expr()->eq('pop.createdAt', ':createdAt');
                 $objQueryBuilder->andWhere($objExprEq);
                 $criteria['createdAt'] = $objRequest->get('createdAt', null);
             }
             if(count($criteria)){
                 $objQueryBuilder->setParameters($criteria);
             }
-            $arrayPop = $objQueryBuilder->getQuery()->getResult();
+            
+            
+            $limit = (integer)$objRequest->get('limit',15);
+            $offset = ((integer)$objRequest->get('offset',0) * $limit);
+            
+            $objQueryBuilder->setFirstResult($offset);
+            $objQueryBuilder->setMaxResults($limit);
+            $objQueryBuilder->addOrderBy('pop.id', 'ASC');
+            
+            $arrayPop['data'] = $objQueryBuilder->getQuery()->getResult();
+            $objQueryBuilder->resetDQLPart('orderBy');
+            $objQueryBuilder->select('count(pop.id) AS total');
+            $objQueryBuilder->setFirstResult(0);
+            $objQueryBuilder->setMaxResults(1);
+            $resultSet = $objQueryBuilder->getQuery()->getResult();
+            $arrayPop['total'] = $resultSet[0]['total'];
+            $arrayPop['offset'] = (integer)$objRequest->get('offset',0);
+            $arrayPop['limit'] = (integer)$objRequest->get('limit',15);
             return $arrayPop;
         } catch (\RuntimeException $e){
             throw $e;

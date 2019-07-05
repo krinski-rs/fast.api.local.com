@@ -1,0 +1,99 @@
+App\Entity\Redes\Port:
+    type: entity
+    table: redes.port
+    indexes:
+        IDX_1B7F58E18B4937A1:
+            columns:
+                - vlan_id
+        IDX_1B7F58E1BE2FFB85:
+            columns:
+                - switch_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        numbering:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+        adminStatus:
+            type: string
+            nullable: true
+            length: 15
+            options:
+                fixed: false
+            column: admin_status
+        operStatus:
+            type: string
+            nullable: true
+            length: 15
+            options:
+                fixed: false
+            column: oper_status
+        autoNeg:
+            type: boolean
+            nullable: false
+            options:
+                default: true
+            column: auto_neg
+        speed:
+            type: string
+            nullable: true
+            length: 15
+            options:
+                fixed: false
+        duplex:
+            type: string
+            nullable: true
+            length: 15
+            options:
+                fixed: false
+        flowCtrl:
+            type: boolean
+            nullable: false
+            options:
+                default: false
+            column: flow_ctrl
+        destiny:
+            type: string
+            nullable: true
+            length: 100
+            options:
+                fixed: false
+        type:
+            type: redes.port_type
+            nullable: false
+        mode:
+            type: redes.port_mode
+            nullable: false
+            options:
+                default: ACCESS
+    manyToOne:
+        vlan:
+            targetEntity: App\Entity\Redes\Vlan
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                vlan_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        switch:
+            targetEntity: App\Entity\Redes\Switchs
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                switch_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
