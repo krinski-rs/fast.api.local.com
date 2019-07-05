@@ -2,198 +2,166 @@
 
 namespace App\Entity\Redes;
 
-/**
- * Switchs
- */
 class Switchs
 {
-    /**
-     * @var int
-     */
     private $id;
 
-    /**
-     * @var string
-     */
     private $name;
 
-    /**
-     * @var bool
-     */
-    private $active = true;
+    private $active;
 
-    /**
-     * @var \DateTime
-     */
-    private $createdAt = 'now()';
+    private $createdAt;
 
-    /**
-     * @var \DateTime|null
-     */
     private $removedAt;
 
-    /**
-     * @var \App\Entity\Redes\Service
-     */
-    private $service;
+    private $addressIpv4;
 
-    /**
-     * @var \App\Entity\Redes\SwitchModel
-     */
+    private $addressIpv6;
+
+    private $username;
+
+    private $password;
+
+    private $pop;
+
     private $switchModel;
 
+    private $vlan;
 
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return Switchs
-     */
-    public function setName($name)
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * Get name.
-     *
-     * @return string
-     */
-    public function getName()
+    public function getActive(): ?bool
     {
-        return $this->name;
+        return $this->active;
     }
 
-    /**
-     * Set active.
-     *
-     * @param bool $active
-     *
-     * @return Switchs
-     */
-    public function setActive($active)
+    public function setActive(bool $active): self
     {
         $this->active = $active;
 
         return $this;
     }
 
-    /**
-     * Get active.
-     *
-     * @return bool
-     */
-    public function getActive()
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->active;
+        return $this->createdAt;
     }
 
-    /**
-     * Set createdAt.
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return Switchs
-     */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    /**
-     * Get createdAt.
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
+    public function getRemovedAt(): ?\DateTimeInterface
     {
-        return $this->createdAt;
+        return $this->removedAt;
     }
 
-    /**
-     * Set removedAt.
-     *
-     * @param \DateTime|null $removedAt
-     *
-     * @return Switchs
-     */
-    public function setRemovedAt($removedAt = null)
+    public function setRemovedAt(?\DateTimeInterface $removedAt): self
     {
         $this->removedAt = $removedAt;
 
         return $this;
     }
 
-    /**
-     * Get removedAt.
-     *
-     * @return \DateTime|null
-     */
-    public function getRemovedAt()
+    public function getAddressIpv4(): ?string
     {
-        return $this->removedAt;
+        return $this->addressIpv4;
     }
 
-    /**
-     * Set service.
-     *
-     * @param \App\Entity\Redes\Service|null $service
-     *
-     * @return Switchs
-     */
-    public function setService(\App\Entity\Redes\Service $service = null)
+    public function setAddressIpv4(?string $addressIpv4): self
     {
-        $this->service = $service;
+        $this->addressIpv4 = $addressIpv4;
 
         return $this;
     }
 
-    /**
-     * Get service.
-     *
-     * @return \App\Entity\Redes\Service|null
-     */
-    public function getService()
+    public function getAddressIpv6(): ?string
     {
-        return $this->service;
+        return $this->addressIpv6;
     }
 
-    /**
-     * Set switchModel.
-     *
-     * @param \App\Entity\Redes\SwitchModel|null $switchModel
-     *
-     * @return Switchs
-     */
-    public function setSwitchModel(\App\Entity\Redes\SwitchModel $switchModel = null)
+    public function setAddressIpv6(?string $addressIpv6): self
+    {
+        $this->addressIpv6 = $addressIpv6;
+
+        return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(?string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(?string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getPop(): ?Pop
+    {
+        return $this->pop;
+    }
+
+    public function setPop(?Pop $pop): self
+    {
+        $this->pop = $pop;
+
+        return $this;
+    }
+
+    public function getSwitchModel(): ?SwitchModel
+    {
+        return $this->switchModel;
+    }
+
+    public function setSwitchModel(?SwitchModel $switchModel): self
     {
         $this->switchModel = $switchModel;
 
         return $this;
     }
 
-    /**
-     * Get switchModel.
-     *
-     * @return \App\Entity\Redes\SwitchModel|null
-     */
-    public function getSwitchModel()
+    public function getVlan(): ?Vlan
     {
-        return $this->switchModel;
+        return $this->vlan;
+    }
+
+    public function setVlan(?Vlan $vlan): self
+    {
+        $this->vlan = $vlan;
+
+        return $this;
     }
 }

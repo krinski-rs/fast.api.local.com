@@ -2,140 +2,68 @@
 
 namespace App\Entity\Redes;
 
-/**
- * Service
- */
 class Service
 {
-    /**
-     * @var int
-     */
     private $id;
 
-    /**
-     * @var string
-     */
     private $name;
 
-    /**
-     * @var bool
-     */
-    private $active = true;
+    private $active;
 
-    /**
-     * @var \DateTime
-     */
-    private $createdAt = 'now()';
+    private $createdAt;
 
-    /**
-     * @var \DateTime|null
-     */
     private $removedAt;
 
-
-    /**
-     * Get id.
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return Service
-     */
-    public function setName($name)
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * Get name.
-     *
-     * @return string
-     */
-    public function getName()
+    public function getActive(): ?bool
     {
-        return $this->name;
+        return $this->active;
     }
 
-    /**
-     * Set active.
-     *
-     * @param bool $active
-     *
-     * @return Service
-     */
-    public function setActive($active)
+    public function setActive(bool $active): self
     {
         $this->active = $active;
 
         return $this;
     }
 
-    /**
-     * Get active.
-     *
-     * @return bool
-     */
-    public function getActive()
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->active;
+        return $this->createdAt;
     }
 
-    /**
-     * Set createdAt.
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return Service
-     */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    /**
-     * Get createdAt.
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
+    public function getRemovedAt(): ?\DateTimeInterface
     {
-        return $this->createdAt;
+        return $this->removedAt;
     }
 
-    /**
-     * Set removedAt.
-     *
-     * @param \DateTime|null $removedAt
-     *
-     * @return Service
-     */
-    public function setRemovedAt($removedAt = null)
+    public function setRemovedAt(?\DateTimeInterface $removedAt): self
     {
         $this->removedAt = $removedAt;
 
         return $this;
-    }
-
-    /**
-     * Get removedAt.
-     *
-     * @return \DateTime|null
-     */
-    public function getRemovedAt()
-    {
-        return $this->removedAt;
     }
 }

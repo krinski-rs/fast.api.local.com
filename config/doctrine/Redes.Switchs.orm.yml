@@ -2,12 +2,15 @@ App\Entity\Redes\Switchs:
     type: entity
     table: redes.switchs
     indexes:
-        IDX_25D50C7ED5CA9E6:
+        IDX_25D50C753BDF040:
             columns:
-                - service_id
+                - pop_id
         IDX_25D50C75BC0921E:
             columns:
                 - switch_model_id
+        IDX_25D50C78B4937A1:
+            columns:
+                - vlan_id
     id:
         id:
             type: integer
@@ -39,15 +42,41 @@ App\Entity\Redes\Switchs:
             type: datetime
             nullable: true
             column: removed_at
+        addressIpv4:
+            type: string
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: address_ipv4
+        addressIpv6:
+            type: string
+            nullable: true
+            length: null
+            options:
+                fixed: false
+            column: address_ipv6
+        username:
+            type: string
+            nullable: true
+            length: 50
+            options:
+                fixed: false
+        password:
+            type: string
+            nullable: true
+            length: 50
+            options:
+                fixed: false
     manyToOne:
-        service:
-            targetEntity: App\Entity\Redes\Service
+        pop:
+            targetEntity: App\Entity\Redes\Pop
             cascade: {  }
             fetch: LAZY
             mappedBy: null
             inversedBy: null
             joinColumns:
-                service_id:
+                pop_id:
                     referencedColumnName: id
             orphanRemoval: false
         switchModel:
@@ -58,6 +87,16 @@ App\Entity\Redes\Switchs:
             inversedBy: null
             joinColumns:
                 switch_model_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        vlan:
+            targetEntity: App\Entity\Redes\Vlan
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                vlan_id:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

@@ -4,4 +4,13 @@ service:
 switch_model:
     prefix: /switchmodel
     resource: './switchmodel/routes.yaml'
+pop:
+    prefix: /pop
+    resource: './pop/routes.yaml'
+switchs:
+    prefix: /switchs
+    resource: './switchs/routes.yaml'
+vlan:
+    prefix: /vlan
+    resource: './vlan/routes.yaml'
     

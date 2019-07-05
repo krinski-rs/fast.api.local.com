@@ -32,31 +32,56 @@ class Listing
             $objRepositorySwitchModel = $this->objEntityManager->getRepository('AppEntity:Redes\SwitchModel');
             $criteria = [];
             
-            $objQueryBuilder = $objRepositorySwitchModel->createQueryBuilder('serv');
-            $objExprEq = $objQueryBuilder->expr()->isNull('serv.removedAt');
+            $objQueryBuilder = $objRepositorySwitchModel->createQueryBuilder('switmode');
+            $objExprEq = $objQueryBuilder->expr()->isNull('switmode.removedAt');
             $objQueryBuilder->andWhere($objExprEq);
             
             if($objRequest->get('name', false)){
-                $objExprLike = $objQueryBuilder->expr()->like('serv.name', ':name');
+                $objExprLike = $objQueryBuilder->expr()->like('switmode.name', ':name');
                 $objQueryBuilder->andWhere($objExprLike);
                 $criteria['name'] = "%{$objRequest->get('name', null)}%";
             }
             
+            if($objRequest->get('brand', false)){
+                $objExprEq = $objQueryBuilder->expr()->eq('switmode.brand', ':brand');
+                $objQueryBuilder->andWhere($objExprEq);
+                $criteria['brand'] = $objRequest->get('brand', null);
+            }
+            
             if($objRequest->get('active', false)){
-                $objExprEq = $objQueryBuilder->expr()->eq('serv.active', ':active');
+                $objExprEq = $objQueryBuilder->expr()->eq('switmode.active', ':active');
                 $objQueryBuilder->andWhere($objExprEq);
                 $criteria['active'] = $objRequest->get('active', null);
             }
             
             if($objRequest->get('createdAt', false)){
-                $objExprEq = $objQueryBuilder->expr()->eq('serv.createdAt', ':createdAt');
+                $objExprEq = $objQueryBuilder->expr()->eq('switmode.createdAt', ':createdAt');
                 $objQueryBuilder->andWhere($objExprEq);
                 $criteria['createdAt'] = $objRequest->get('createdAt', null);
             }
+            
             if(count($criteria)){
                 $objQueryBuilder->setParameters($criteria);
             }
-            $arraySwitchModel = $objQueryBuilder->getQuery()->getResult();
+            
+            $limit = (integer)$objRequest->get('limit',15);
+            $offset = ((integer)$objRequest->get('offset',0) * $limit);
+            
+            $objQueryBuilder->setFirstResult($offset);
+            $objQueryBuilder->setMaxResults($limit);
+            $objQueryBuilder->addOrderBy('switmode.id', 'ASC');
+            
+            
+            $arraySwitchModel['data'] = $objQueryBuilder->getQuery()->getResult();
+            $objQueryBuilder->resetDQLPart('orderBy');
+            $objQueryBuilder->select('count(switmode.id) AS total');
+            $objQueryBuilder->setFirstResult(0);
+            $objQueryBuilder->setMaxResults(1);
+            $resultSet = $objQueryBuilder->getQuery()->getResult();
+            $arraySwitchModel['total'] = $resultSet[0]['total'];
+            $arraySwitchModel['offset'] = (integer)$objRequest->get('offset',0);
+            $arraySwitchModel['limit'] = (integer)$objRequest->get('limit',15);
+            
             return $arraySwitchModel;
         } catch (\RuntimeException $e){
             throw $e;

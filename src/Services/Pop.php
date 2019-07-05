@@ -9,11 +9,11 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use App\Services\SwitchModel\Create;
-use App\Services\SwitchModel\Listing;
+use App\Services\Pop\Create;
+use App\Services\Pop\Listing;
 use App\DBAL\Type\Enum\Redes\MarcaSwitchType;
 
-class SwitchModel
+class Pop
 {
     private $objEntityManager   = NULL;
     private $objLogger          = NULL;
@@ -107,19 +107,6 @@ class SwitchModel
             $objGetSetMethodNormalizer = new GetSetMethodNormalizer(NULL, NULL, NULL, NULL, NULL, $defaultContext);
             $objSerializer = new Serializer([$objGetSetMethodNormalizer]);
             return $objSerializer->normalize($arrayTemplate);
-        } catch (\RuntimeException $e){
-            throw $e;
-        } catch (\Exception $e){
-            throw $e;
-        }
-    }
-    
-    public function getBrand(Request $objRequest)
-    {
-        try {            
-            $objGetSetMethodNormalizer = new GetSetMethodNormalizer(NULL, NULL, NULL, NULL, NULL, []);
-            $objSerializer = new Serializer([$objGetSetMethodNormalizer]);
-            return $objSerializer->normalize(array_flip(MarcaSwitchType::getChoices()));
         } catch (\RuntimeException $e){
             throw $e;
         } catch (\Exception $e){

@@ -1,0 +1,57 @@
+post_vlan:
+    path: /
+    controller: 'App\Controller\Vlan\VlanController::postVlan'
+    methods: [POST]
+    defaults:
+        _format: json
+        
+get_vlan_status:
+    path: /status
+    controller: 'App\Controller\Vlan\VlanController::getStatus'
+    methods: [GET]
+    defaults:
+        _format: json
+        
+get_vlan:
+    path: /{idVlan}
+    controller: 'App\Controller\Vlan\VlanController::getVlan'
+    methods: [GET]
+    defaults:
+        _format: json
+    requirements:
+        idVlan: '\d+'
+        
+        
+list_vlan:
+    path: /
+    controller: 'App\Controller\Vlan\VlanController::getVlans'
+    methods: [GET]
+    defaults:
+        _format: json
+        
+delete_vlan:
+    path: /{idVlan}
+    controller: 'App\Controller\Vlan\VlanController::deleteVlan'
+    methods: [DELETE]
+    defaults:
+        _format: json
+    requirements:
+        idVlan: '\d+'
+        
+put_vlan:
+    path: /{idVlan}
+    controller: 'App\Controller\Vlan\VlanController::putVlan'
+    methods: [PUT]
+    defaults:
+        _format: json
+    requirements:
+        idVlan: '\d+'
+        
+patch_vlan:
+    path: /{idVlan}
+    controller: 'App\Controller\Vlan\VlanController::patchVlan'
+    methods: [PATCH]
+    defaults:
+        _format: json
+    requirements:
+        idVlan: '\d+'

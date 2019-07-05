@@ -2,11 +2,15 @@
 
 namespace App\Entity\Redes;
 
-class SwitchModel
+class Vlan
 {
     private $id;
 
-    private $name;
+    private $tagId;
+
+    private $description;
+
+    private $status;
 
     private $active;
 
@@ -14,21 +18,45 @@ class SwitchModel
 
     private $removedAt;
 
-    private $brand;
+    private $service;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getTagId(): ?int
     {
-        return $this->name;
+        return $this->tagId;
     }
 
-    public function setName(string $name): self
+    public function setTagId(int $tagId): self
     {
-        $this->name = $name;
+        $this->tagId = $tagId;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setStatus($status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
@@ -69,14 +97,14 @@ class SwitchModel
         return $this;
     }
 
-    public function getBrand()
+    public function getService(): ?Service
     {
-        return $this->brand;
+        return $this->service;
     }
 
-    public function setBrand($brand): self
+    public function setService(?Service $service): self
     {
-        $this->brand = $brand;
+        $this->service = $service;
 
         return $this;
     }

@@ -2,7 +2,7 @@
 
 namespace App\Entity\Redes;
 
-class SwitchModel
+class Pop
 {
     private $id;
 
@@ -13,8 +13,6 @@ class SwitchModel
     private $createdAt;
 
     private $removedAt;
-
-    private $brand;
 
     public function getId(): ?int
     {
@@ -65,18 +63,6 @@ class SwitchModel
     public function setRemovedAt(?\DateTimeInterface $removedAt): self
     {
         $this->removedAt = $removedAt;
-
-        return $this;
-    }
-
-    public function getBrand()
-    {
-        return $this->brand;
-    }
-
-    public function setBrand($brand): self
-    {
-        $this->brand = $brand;
 
         return $this;
     }

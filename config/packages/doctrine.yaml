@@ -5,7 +5,8 @@ doctrine:
         types:
             redes.marca_switch:
                 class:                App\DBAL\Type\Enum\Redes\MarcaSwitchType
-                commented:            true
+            redes.status_vlan:
+                class:                App\DBAL\Type\Enum\Redes\StatusVlanType
 #        driver: 'pdo_mysql'
 #        server_version: '5.7'
 #        charset: utf8mb4
@@ -25,6 +26,7 @@ doctrine:
                 charset:  '%env(resolve:VOGEL_CHARSET)%'
                 mapping_types:
                     marca_switch: redes.marca_switch
+                    status_vlan: redes.status_vlan
             redes:
                 driver:   '%env(resolve:VOGEL_DRIVER)%'
                 host:     '%env(resolve:VOGEL_HOST)%'
@@ -35,6 +37,7 @@ doctrine:
                 charset:  '%env(resolve:VOGEL_CHARSET)%'
                 mapping_types:
                     marca_switch: redes.marca_switch
+                    status_vlan: redes.status_vlan
                 schema_filter: '/^(redes.)/'
     orm:
         default_entity_manager: default

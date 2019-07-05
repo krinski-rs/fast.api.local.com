@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\Service;
+namespace App\Services\Switchs;
 
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManager;
@@ -13,12 +13,12 @@ class Listing
         $this->objEntityManager = $objEntityManager;
     }
     
-    public function get(int $idService)
+    public function get(int $idSwitchs)
     {
         try {
-            $objRepositoryService = $this->objEntityManager->getRepository('AppEntity:Redes\Service');
-            $objService = $objRepositoryService->find($idService);
-            return $objService;
+            $objRepositorySwitchs = $this->objEntityManager->getRepository('AppEntity:Redes\Switchs');
+            $objSwitchs = $objRepositorySwitchs->find($idSwitchs);
+            return $objSwitchs;
         } catch (\RuntimeException $e){
             throw $e;
         } catch (\Exception $e){
@@ -29,27 +29,26 @@ class Listing
     public function list(Request $objRequest)
     {
         try {
-            $objRepositoryService = $this->objEntityManager->getRepository('AppEntity:Redes\Service');
+            $objRepositorySwitchs = $this->objEntityManager->getRepository('AppEntity:Redes\Switchs');
             $criteria = [];
-            
-            $objQueryBuilder = $objRepositoryService->createQueryBuilder('serv');
-            $objExprEq = $objQueryBuilder->expr()->isNull('serv.removedAt');
+            $objQueryBuilder = $objRepositorySwitchs->createQueryBuilder('swit');
+            $objExprEq = $objQueryBuilder->expr()->isNull('swit.removedAt');
             $objQueryBuilder->andWhere($objExprEq);
             
             if($objRequest->get('name', false)){
-                $objExprLike = $objQueryBuilder->expr()->like('serv.name', ':name');
+                $objExprLike = $objQueryBuilder->expr()->like('swit.name', ':name');
                 $objQueryBuilder->andWhere($objExprLike);
                 $criteria['name'] = "%{$objRequest->get('name', null)}%";
             }
             
             if($objRequest->get('active', false)){
-                $objExprEq = $objQueryBuilder->expr()->eq('serv.active', ':active');
+                $objExprEq = $objQueryBuilder->expr()->eq('swit.active', ':active');
                 $objQueryBuilder->andWhere($objExprEq);
                 $criteria['active'] = $objRequest->get('active', null);
             }
             
             if($objRequest->get('createdAt', false)){
-                $objExprEq = $objQueryBuilder->expr()->eq('serv.createdAt', ':createdAt');
+                $objExprEq = $objQueryBuilder->expr()->eq('swit.createdAt', ':createdAt');
                 $objQueryBuilder->andWhere($objExprEq);
                 $criteria['createdAt'] = $objRequest->get('createdAt', null);
             }
@@ -63,18 +62,17 @@ class Listing
             
             $objQueryBuilder->setFirstResult($offset);
             $objQueryBuilder->setMaxResults($limit);
-            $objQueryBuilder->addOrderBy('serv.id', 'ASC');
             
-            $arrayService['data'] = $objQueryBuilder->getQuery()->getResult();
-            $objQueryBuilder->resetDQLPart('orderBy');
-            $objQueryBuilder->select('count(serv.id) AS total');
+            $arraySwitchs['data'] = $objQueryBuilder->getQuery()->getResult();
+            $objQueryBuilder->select('count(swit.id) AS total');
             $objQueryBuilder->setFirstResult(0);
             $objQueryBuilder->setMaxResults(1);
             $resultSet = $objQueryBuilder->getQuery()->getResult();
-            $arrayService['total'] = $resultSet[0]['total'];
-            $arrayService['offset'] = (integer)$objRequest->get('offset',0);
-            $arrayService['limit'] = (integer)$objRequest->get('limit',15);
-            return $arrayService;
+            $arraySwitchs['total'] = $resultSet[0]['total'];
+            $arraySwitchs['offset'] = (integer)$objRequest->get('offset',0);
+            $arraySwitchs['limit'] = (integer)$objRequest->get('limit',15);
+
+            return $arraySwitchs;
         } catch (\RuntimeException $e){
             throw $e;
         } catch (\Exception $e){

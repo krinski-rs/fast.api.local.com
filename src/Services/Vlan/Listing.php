@@ -1,5 +1,5 @@
 <?php
-namespace App\Services\Service;
+namespace App\Services\Vlan;
 
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManager;
@@ -13,12 +13,12 @@ class Listing
         $this->objEntityManager = $objEntityManager;
     }
     
-    public function get(int $idService)
+    public function get(int $idVlan)
     {
         try {
-            $objRepositoryService = $this->objEntityManager->getRepository('AppEntity:Redes\Service');
-            $objService = $objRepositoryService->find($idService);
-            return $objService;
+            $objRepositoryVlan = $this->objEntityManager->getRepository('AppEntity:Redes\Vlan');
+            $objVlan = $objRepositoryVlan->find($idVlan);
+            return $objVlan;
         } catch (\RuntimeException $e){
             throw $e;
         } catch (\Exception $e){
@@ -29,31 +29,30 @@ class Listing
     public function list(Request $objRequest)
     {
         try {
-            $objRepositoryService = $this->objEntityManager->getRepository('AppEntity:Redes\Service');
+            $objRepositoryVlan = $this->objEntityManager->getRepository('AppEntity:Redes\Vlan');
             $criteria = [];
             
-            $objQueryBuilder = $objRepositoryService->createQueryBuilder('serv');
-            $objExprEq = $objQueryBuilder->expr()->isNull('serv.removedAt');
+            $objQueryBuilder = $objRepositoryVlan->createQueryBuilder('vlan');
+            $objExprEq = $objQueryBuilder->expr()->isNull('vlan.removedAt');
             $objQueryBuilder->andWhere($objExprEq);
             
-            if($objRequest->get('name', false)){
-                $objExprLike = $objQueryBuilder->expr()->like('serv.name', ':name');
+            if($objRequest->get('description', NULL)){
+                $objExprLike = $objQueryBuilder->expr()->like('vlan.description', ':description');
                 $objQueryBuilder->andWhere($objExprLike);
-                $criteria['name'] = "%{$objRequest->get('name', null)}%";
+                $criteria['description'] = "%{$objRequest->get('description', NULL)}%";
             }
             
-            if($objRequest->get('active', false)){
-                $objExprEq = $objQueryBuilder->expr()->eq('serv.active', ':active');
+            if($objRequest->get('active', NULL)){
+                $objExprEq = $objQueryBuilder->expr()->eq('vlan.active', ':active');
                 $objQueryBuilder->andWhere($objExprEq);
                 $criteria['active'] = $objRequest->get('active', null);
             }
             
-            if($objRequest->get('createdAt', false)){
-                $objExprEq = $objQueryBuilder->expr()->eq('serv.createdAt', ':createdAt');
+            if($objRequest->get('createdAt', NULL)){
+                $objExprEq = $objQueryBuilder->expr()->eq('vlan.createdAt', ':createdAt');
                 $objQueryBuilder->andWhere($objExprEq);
-                $criteria['createdAt'] = $objRequest->get('createdAt', null);
+                $criteria['createdAt'] = $objRequest->get('createdAt', NULL);
             }
-            
             if(count($criteria)){
                 $objQueryBuilder->setParameters($criteria);
             }
@@ -63,18 +62,18 @@ class Listing
             
             $objQueryBuilder->setFirstResult($offset);
             $objQueryBuilder->setMaxResults($limit);
-            $objQueryBuilder->addOrderBy('serv.id', 'ASC');
+            $objQueryBuilder->addOrderBy('vlan.id', 'ASC');
             
-            $arrayService['data'] = $objQueryBuilder->getQuery()->getResult();
+            $arrayVlan['data'] = $objQueryBuilder->getQuery()->getResult();
             $objQueryBuilder->resetDQLPart('orderBy');
-            $objQueryBuilder->select('count(serv.id) AS total');
+            $objQueryBuilder->select('count(DISTINCT vlan.id) AS total');
             $objQueryBuilder->setFirstResult(0);
             $objQueryBuilder->setMaxResults(1);
             $resultSet = $objQueryBuilder->getQuery()->getResult();
-            $arrayService['total'] = $resultSet[0]['total'];
-            $arrayService['offset'] = (integer)$objRequest->get('offset',0);
-            $arrayService['limit'] = (integer)$objRequest->get('limit',15);
-            return $arrayService;
+            $arrayVlan['total'] = $resultSet[0]['total'];
+            $arrayVlan['offset'] = (integer)$objRequest->get('offset',0);
+            $arrayVlan['limit'] = (integer)$objRequest->get('limit',15);
+            return $arrayVlan;
         } catch (\RuntimeException $e){
             throw $e;
         } catch (\Exception $e){
