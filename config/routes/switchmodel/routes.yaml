@@ -25,7 +25,7 @@ get_switch_model:
 list_switch_model:
     path: /
     controller: 'App\Controller\SwitchModel\SwitchModelController::getSwitchModels'
-    methods: [GET]
+    methods: [GET,OPTIONS]
     defaults:
         _format: json
         

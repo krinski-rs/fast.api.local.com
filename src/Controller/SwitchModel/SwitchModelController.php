@@ -72,7 +72,6 @@ class SwitchModelController extends AbstractController
             if(!$this->objSwitchModel instanceof SwitchModel){
                 return new JsonResponse(['message'=> 'Class "App\Services\SwitchModel not found."'], Response::HTTP_INTERNAL_SERVER_ERROR);
             }
-            $this->objLogger->error('CONTROLADOR', ['jgjggjgjgj']);
             $arraySwitchModel = $this->objSwitchModel->list($objRequest);
             return new JsonResponse($arraySwitchModel, Response::HTTP_OK);
         } catch (NotFoundHttpException $e) {

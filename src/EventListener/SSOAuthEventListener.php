@@ -42,7 +42,10 @@ class SSOAuthEventListener
         $method  = $objRequest->getRealMethod();
         if ('OPTIONS' === strtoupper($method)) {
             $objResponse = new Response();
+            
             $allowed_origin = array_search($objRequest->headers->get('origin'), $this->corsParameters['allowed_origin']);
+            $allowed_origin = (!$allowed_origin ? array_search($objRequest->getClientIp(), $this->corsParameters['allowed_origin']) : $allowed_origin);
+            
             $objResponse->headers->set('Access-Control-Allow-Origin', trim($this->corsParameters['allowed_origin'][$allowed_origin]));
             $objResponse->headers->set('Access-Control-Allow-Credentials', 'true');
             $objResponse->headers->set('Access-Control-Allow-Methods', 'POST,GET,PUT,DELETE,PATCH,OPTIONS');
@@ -100,6 +103,8 @@ class SSOAuthEventListener
         }
         
         $allowed_origin = array_search($objRequest->headers->get('origin'), $this->corsParameters['allowed_origin']);
+        $allowed_origin = (!$allowed_origin ? array_search($objRequest->getClientIp(), $this->corsParameters['allowed_origin']) : $allowed_origin);
+        
         $objResponse = $objFilterResponseEvent->getResponse();
         $objResponse->headers->set('Access-Control-Allow-Origin', trim($this->corsParameters['allowed_origin'][$allowed_origin]));
         $objResponse->headers->set('Access-Control-Allow-Credentials', 'true');

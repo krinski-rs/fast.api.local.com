@@ -88,7 +88,6 @@ class SwitchModel
         try {
             $objListing = new Listing($this->objEntityManager);
             $arrayTemplate = $objListing->list($objRequest);
-            $this->objLogger->error("teste", ['jdjdjd'=>12313]);
             if(!count($arrayTemplate)){
                 throw new NotFoundHttpException("Not Found");
             }
