@@ -74,20 +74,6 @@ class SSOAuthEventListener
         if(!$this->objSSoClient->me()){
             throw new \Exception('Erro de login.');
         }
-        
-    }
-    
-    private function setRedirectToLoginResponse(GetResponseEvent $objGetResponseEvent)
-    {
-        $request = Request::createFromGlobals();
-        if ($request->isXmlHttpRequest() ) {
-            $data = array("msg" => "Você precisa estar logado para realizar esta ação");
-            $response = new JsonResponse($data, 403);
-        } else {
-            $response = new RedirectResponse('/login', 302);
-        }
-        $objGetResponseEvent->setResponse($response);
-        $objGetResponseEvent->stopPropagation();
     }
     
     public function onKernelResponse(FilterResponseEvent $objFilterResponseEvent)
