@@ -94,6 +94,9 @@ class Vlan
             }
             
             $defaultContext = [
+                AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
+                    return $object->getName();
+                },
                 AbstractNormalizer::CALLBACKS => [
                     'createdAt' => function ($dateTime) {
                         return $dateTime instanceof \DateTime ? $dateTime->format(\DateTime::ISO8601) : NULL;

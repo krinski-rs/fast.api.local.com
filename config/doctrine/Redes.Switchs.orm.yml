@@ -68,6 +68,12 @@ App\Entity\Redes\Switchs:
             length: 50
             options:
                 fixed: false
+        community:
+            type: string
+            nullable: true
+            length: 50
+            options:
+                fixed: false
     manyToOne:
         pop:
             targetEntity: App\Entity\Redes\Pop
@@ -99,4 +105,13 @@ App\Entity\Redes\Switchs:
                 vlan_id:
                     referencedColumnName: id
             orphanRemoval: false
+    oneToMany:
+        port:
+            targetEntity: App\Entity\Redes\Port
+            cascade:
+                - persist
+                - merge
+                - remove
+            fetch: LAZY
+            mappedBy: switchs
     lifecycleCallbacks: {  }

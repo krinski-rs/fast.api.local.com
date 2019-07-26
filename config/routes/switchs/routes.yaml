@@ -8,7 +8,25 @@ post_switchs:
 get_switchs:
     path: /{idSwitchs}
     controller: 'App\Controller\Switchs\SwitchsController::getSwitchs'
-    methods: [GET]
+    methods: [GET, OPTIONS]
+    defaults:
+        _format: json
+    requirements:
+        idSwitchs: '\d+'
+        
+get_switchs_status:
+    path: /{idSwitchs}/status
+    controller: 'App\Controller\Switchs\SwitchsController::getSwitchsStatus'
+    methods: [GET, OPTIONS]
+    defaults:
+        _format: json
+    requirements:
+        idSwitchs: '\d+'
+        
+get_switchs_details:
+    path: /{idSwitchs}/details
+    controller: 'App\Controller\Switchs\SwitchsController::getSwitchsDetails'
+    methods: [GET, OPTIONS]
     defaults:
         _format: json
     requirements:
@@ -18,7 +36,7 @@ get_switchs:
 list_switchs:
     path: /
     controller: 'App\Controller\Switchs\SwitchsController::getSwitchss'
-    methods: [GET]
+    methods: [GET, OPTIONS]
     defaults:
         _format: json
         

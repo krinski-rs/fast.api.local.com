@@ -72,7 +72,6 @@ class VlanController extends AbstractController
             if(!$this->objVlan instanceof Vlan){
                 return new JsonResponse(['message'=> 'Class "App\Services\Vlan not found."'], Response::HTTP_INTERNAL_SERVER_ERROR);
             }
-            $this->objLogger->error('CONTROLADOR', ['jgjggjgjgj']);
             $arrayVlan = $this->objVlan->list($objRequest);
             return new JsonResponse($arrayVlan, Response::HTTP_OK);
         } catch (NotFoundHttpException $e) {

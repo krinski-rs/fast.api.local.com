@@ -62,7 +62,7 @@ class Listing
             
             $objQueryBuilder->setFirstResult($offset);
             $objQueryBuilder->setMaxResults($limit);
-            $objQueryBuilder->addOrderBy('vlan.id', 'ASC');
+            $objQueryBuilder->addOrderBy('vlan.tagId', 'ASC');
             
             $arrayVlan['data'] = $objQueryBuilder->getQuery()->getResult();
             $objQueryBuilder->resetDQLPart('orderBy');

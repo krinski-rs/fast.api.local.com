@@ -4,14 +4,15 @@ namespace App\Services;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpFoundation\Request;
 use Monolog\Logger;
-use App\Entity\Redes\Service as EntityService;
+use App\Entity\Redes\Switchs as EntitySwitchs;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Services\Switchs\Create;
 use App\Services\Switchs\Listing;
-use App\DBAL\Type\Enum\Redes\MarcaSwitchType;
+use App\Entity\Redes\Vlan;
+use App\Services\Switchs\SwitchStatus;
 
 class Switchs
 {
@@ -32,6 +33,13 @@ class Switchs
                 ->create($objRequest)
                 ->save();
             $defaultContext = [
+                AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
+                    if($object instanceof Vlan){
+                        return $object->getTagId();
+                    }else{
+                        return $object->getName();
+                    }
+                },
                 AbstractNormalizer::CALLBACKS => [
                     'createdAt' => function ($dateTime) {
                         return $dateTime instanceof \DateTime ? $dateTime->format(\DateTime::ISO8601) : '';
@@ -52,17 +60,24 @@ class Switchs
         }
     }
     
-    public function get(int $idService)
+    public function get(int $idSwitch)
     {
         try {
             $objListing = new Listing($this->objEntityManager);
-            $objService = $objListing->get($idService);
+            $objSwitch = $objListing->get($idSwitch);
             
-            if(!($objService instanceof EntityService)){
+            if(!($objSwitch instanceof EntitySwitchs)){
                 throw new NotFoundHttpException("Not Found");
             }
             
             $defaultContext = [
+                AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
+                    if($object instanceof Vlan){
+                        return $object->getTagId();
+                    }else{
+                        return $object->getName();
+                    }
+                },
                 AbstractNormalizer::CALLBACKS => [
                     'createdAt' => function ($dateTime) {
                         return $dateTime instanceof \DateTime ? $dateTime->format(\DateTime::ISO8601) : NULL;
@@ -75,7 +90,45 @@ class Switchs
             
             $objGetSetMethodNormalizer = new GetSetMethodNormalizer(NULL, NULL, NULL, NULL, NULL, $defaultContext);
             $objSerializer = new Serializer([$objGetSetMethodNormalizer]);
-            return $objSerializer->normalize($objService);
+            return $objSerializer->normalize($objSwitch);
+        } catch (\RuntimeException $e){
+            throw $e;
+        } catch (\Exception $e){
+            throw $e;
+        }
+    }
+    
+    public function status(int $idSwitch)
+    {
+        try {
+            $objSwitchStatus = new SwitchStatus($this->objEntityManager, $this->objLogger);
+            $objSwitch = $objSwitchStatus->status($idSwitch);
+            
+            if(!($objSwitch instanceof EntitySwitchs)){
+                throw new NotFoundHttpException("Not Found");
+            }
+            
+            $defaultContext = [
+                AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
+                    if($object instanceof Vlan){
+                        return $object->getTagId();
+                    }else{
+                        return $object->getName();
+                    }
+                },
+                AbstractNormalizer::CALLBACKS => [
+                    'createdAt' => function ($dateTime) {
+                    return $dateTime instanceof \DateTime ? $dateTime->format(\DateTime::ISO8601) : NULL;
+                    },
+                    'removedAt' => function ($dateTime) {
+                    return $dateTime instanceof \DateTime ? $dateTime->format(\DateTime::ISO8601) : NULL;
+                    },
+                    ],
+                    ];
+            
+            $objGetSetMethodNormalizer = new GetSetMethodNormalizer(NULL, NULL, NULL, NULL, NULL, $defaultContext);
+            $objSerializer = new Serializer([$objGetSetMethodNormalizer]);
+            return $objSerializer->normalize($objSwitch);
         } catch (\RuntimeException $e){
             throw $e;
         } catch (\Exception $e){
@@ -87,13 +140,20 @@ class Switchs
     {
         try {
             $objListing = new Listing($this->objEntityManager);
-            $arrayTemplate = $objListing->list($objRequest);
+            $arraySwitch = $objListing->list($objRequest);
             $this->objLogger->error("teste", ['jdjdjd'=>12313]);
-            if(!count($arrayTemplate)){
+            if(!count($arraySwitch)){
                 throw new NotFoundHttpException("Not Found");
             }
             
             $defaultContext = [
+                AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object, $format, $context) {
+                    if($object instanceof Vlan){
+                        return $object->getTagId();
+                    }else{
+                        return $object->getName();
+                    }
+                },
                 AbstractNormalizer::CALLBACKS => [
                     'createdAt' => function ($dateTime) {
                         return $dateTime instanceof \DateTime ? $dateTime->format(\DateTime::ISO8601) : NULL;
@@ -106,7 +166,7 @@ class Switchs
             
             $objGetSetMethodNormalizer = new GetSetMethodNormalizer(NULL, NULL, NULL, NULL, NULL, $defaultContext);
             $objSerializer = new Serializer([$objGetSetMethodNormalizer]);
-            return $objSerializer->normalize($arrayTemplate);
+            return $objSerializer->normalize($arraySwitch);
         } catch (\RuntimeException $e){
             throw $e;
         } catch (\Exception $e){

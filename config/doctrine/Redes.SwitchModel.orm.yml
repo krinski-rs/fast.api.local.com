@@ -35,4 +35,13 @@ App\Entity\Redes\SwitchModel:
         brand:
             type: redes.marca_switch
             nullable: false
+    oneToMany:
+        switchModelPort:
+            targetEntity: App\Entity\Redes\SwitchModelPort
+            cascade:
+                - persist
+                - merge
+                - remove
+            fetch: LAZY
+            mappedBy: switchModel
     lifecycleCallbacks: {  }

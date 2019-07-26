@@ -51,6 +51,40 @@ class SwitchsController extends AbstractController
         }
     }
     
+    public function getSwitchsStatus(Request $objRequest, int $idSwitchs)
+    {
+        try {
+            if(!$this->objSwitchs instanceof Switchs){
+                return new JsonResponse(['message'=> 'Class "App\Services\Switchs not found."'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+            $objSwitchs = $this->objSwitchs->status($idSwitchs);
+            return new JsonResponse($objSwitchs, Response::HTTP_OK);
+        } catch (NotFoundHttpException $e) {
+            return new JsonResponse(NULL, Response::HTTP_NOT_FOUND);
+        } catch (\RuntimeException $e) {
+            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_PRECONDITION_FAILED);
+        } catch (\Exception $e) {
+            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    
+    public function getSwitchsDetails(Request $objRequest, int $idSwitchs)
+    {
+        try {
+            if(!$this->objSwitchs instanceof Switchs){
+                return new JsonResponse(['message'=> 'Class "App\Services\Switchs not found."'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+            $objSwitchs = $this->objSwitchs->details($idSwitchs);
+            return new JsonResponse($objSwitchs, Response::HTTP_OK);
+        } catch (NotFoundHttpException $e) {
+            return new JsonResponse(NULL, Response::HTTP_NOT_FOUND);
+        } catch (\RuntimeException $e) {
+            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_PRECONDITION_FAILED);
+        } catch (\Exception $e) {
+            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+    
     public function getSwitchss(Request $objRequest)
     {        
         try {

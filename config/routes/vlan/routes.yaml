@@ -25,7 +25,7 @@ get_vlan:
 list_vlan:
     path: /
     controller: 'App\Controller\Vlan\VlanController::getVlans'
-    methods: [GET]
+    methods: [GET,OPTIONS]
     defaults:
         _format: json
         

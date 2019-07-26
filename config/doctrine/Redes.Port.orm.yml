@@ -86,7 +86,7 @@ App\Entity\Redes\Port:
                 vlan_id:
                     referencedColumnName: id
             orphanRemoval: false
-        switch:
+        switchs:
             targetEntity: App\Entity\Redes\Switchs
             cascade: {  }
             fetch: LAZY

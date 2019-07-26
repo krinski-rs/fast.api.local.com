@@ -2,6 +2,9 @@
 
 namespace App\Entity\Redes;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 class Switchs
 {
     private $id;
@@ -22,11 +25,20 @@ class Switchs
 
     private $password;
 
+    private $port;
+
     private $pop;
 
     private $switchModel;
 
     private $vlan;
+
+    private $community;
+
+    public function __construct()
+    {
+        $this->port = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -129,6 +141,37 @@ class Switchs
         return $this;
     }
 
+    /**
+     * @return Collection|Port[]
+     */
+    public function getPort(): Collection
+    {
+        return $this->port;
+    }
+
+    public function addPort(Port $port): self
+    {
+        if (!$this->port->contains($port)) {
+            $this->port[] = $port;
+            $port->setSwitchs($this);
+        }
+
+        return $this;
+    }
+
+    public function removePort(Port $port): self
+    {
+        if ($this->port->contains($port)) {
+            $this->port->removeElement($port);
+            // set the owning side to null (unless already changed)
+            if ($port->getSwitchs() === $this) {
+                $port->setSwitchs(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function getPop(): ?Pop
     {
         return $this->pop;
@@ -162,6 +205,18 @@ class Switchs
     {
         $this->vlan = $vlan;
 
+        return $this;
+    }
+    
+    public function getCommunity(): ?string
+    {
+        return $this->community;
+    }
+    
+    public function setCommunity(?string $community): self
+    {
+        $this->community = $community;
+        
         return $this;
     }
 }

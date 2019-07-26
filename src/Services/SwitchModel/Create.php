@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Monolog\Logger;
 use App\Entity\Redes\SwitchModel;
 use App\DBAL\Type\Enum\Redes\MarcaSwitchType;
+use App\Entity\Redes\SwitchModelPort;
 
 class Create
 {
@@ -21,6 +22,42 @@ class Create
         $this->objLogger = $objLogger;
     }
     
+    public function addSwitchModelPort(Request $objRequest)
+    {
+        try {            
+            $this->validate($objRequest);
+            
+            $quantities = (integer)$objRequest->get('port10Ge');
+            if($quantities > 0){
+                $objSwitchModelPort = new SwitchModelPort();
+                $objSwitchModelPort->setPortType(3);
+                $objSwitchModelPort->setQuantities($quantities);
+                $this->objSwitchModel->addSwitchModelPort($objSwitchModelPort);
+            }
+            
+            $quantities = (integer)$objRequest->get('portGe');
+            if($quantities > 0){
+                $objSwitchModelPort = new SwitchModelPort();
+                $objSwitchModelPort->setPortType(2);
+                $objSwitchModelPort->setQuantities($quantities);
+                $this->objSwitchModel->addSwitchModelPort($objSwitchModelPort);
+            }
+            
+            $quantities = (integer)$objRequest->get('portFe');
+            if($quantities > 0){
+                $objSwitchModelPort = new SwitchModelPort();
+                $objSwitchModelPort->setPortType(1);
+                $objSwitchModelPort->setQuantities($quantities);
+                $this->objSwitchModel->addSwitchModelPort($objSwitchModelPort);
+            }
+        } catch (\RuntimeException $e){
+            throw $e;
+        } catch (\Exception $e){
+            throw $e;
+        }
+        
+    }
+    
     public function create(Request $objRequest)
     {
         try {
@@ -32,6 +69,7 @@ class Create
             $this->objSwitchModel->setBrand($choice[$objRequest->get('brand')]);
             $this->objSwitchModel->setCreatedAt(new \DateTime());
             $this->objSwitchModel->setRemovedAt(NULL);
+            $this->addSwitchModelPort($objRequest);
         } catch (\RuntimeException $e){
             throw $e;
         } catch (\Exception $e){
@@ -105,6 +143,11 @@ class Create
                 $mensagem.= $objArrayIterator->current()->getPropertyPath().': '.$objArrayIterator->current()->getMessage();
                 $objArrayIterator->next();
             }
+            throw new \RuntimeException($mensagem);
+        }
+        
+        if(!((integer)$objRequest->get('portGe') > 0) && !((integer)$objRequest->get('portFe') > 0) && !((integer)$objRequest->get('port10Ge') > 0)){
+            $mensagem = "Informe pelo menos um tipo de porta";
             throw new \RuntimeException($mensagem);
         }
     }

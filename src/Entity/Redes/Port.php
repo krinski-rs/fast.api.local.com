@@ -28,7 +28,7 @@ class Port
 
     private $vlan;
 
-    private $switch;
+    private $switchs;
 
     public function getId(): ?int
     {
@@ -167,14 +167,14 @@ class Port
         return $this;
     }
 
-    public function getSwitch(): ?Switchs
+    public function getSwitchs(): ?Switchs
     {
-        return $this->switch;
+        return $this->switchs;
     }
 
-    public function setSwitch(?Switchs $switch): self
+    public function setSwitchs(?Switchs $switchs): self
     {
-        $this->switch = $switch;
+        $this->switchs = $switchs;
 
         return $this;
     }

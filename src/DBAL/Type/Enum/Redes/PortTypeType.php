@@ -18,9 +18,9 @@ final class PortTypeType extends AbstractEnumType
      * {@inheritdoc}
      */
     protected static $choices = [
-        0 => self::FE,
-        1 => self::GE,
-        2 => self::GE10
+        1 => self::FE,
+        2 => self::GE,
+        3 => self::GE10
     ];
 }
 

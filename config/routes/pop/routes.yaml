@@ -5,13 +5,6 @@ post_pop:
     defaults:
         _format: json
         
-get_pop_brand:
-    path: /brand
-    controller: 'App\Controller\Pop\PopController::getBrand'
-    methods: [GET]
-    defaults:
-        _format: json
-        
 get_pop:
     path: /{idPop}
     controller: 'App\Controller\Pop\PopController::getPop'
@@ -25,7 +18,7 @@ get_pop:
 list_pop:
     path: /
     controller: 'App\Controller\Pop\PopController::getPops'
-    methods: [GET]
+    methods: [GET, OPTIONS]
     defaults:
         _format: json
         

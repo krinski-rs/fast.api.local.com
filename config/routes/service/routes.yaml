@@ -17,7 +17,7 @@ get_service:
 list_service:
     path: /
     controller: 'App\Controller\Service\ServiceController::getServices'
-    methods: [GET]
+    methods: [GET,OPTIONS]
     defaults:
         _format: json
         
