@@ -75,6 +75,20 @@ App\Entity\Redes\Port:
             nullable: false
             options:
                 default: ACCESS
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: now()
+            column: created_at
+        removedAt:
+            type: datetime
+            nullable: true
+            column: removed_at
+        modifiedAt:
+            type: datetime
+            nullable: true
+            column: modified_at
     manyToOne:
         vlan:
             targetEntity: App\Entity\Redes\Vlan

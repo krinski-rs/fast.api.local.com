@@ -14,25 +14,6 @@ get_switchs:
     requirements:
         idSwitchs: '\d+'
         
-get_switchs_status:
-    path: /{idSwitchs}/status
-    controller: 'App\Controller\Switchs\SwitchsController::getSwitchsStatus'
-    methods: [GET, OPTIONS]
-    defaults:
-        _format: json
-    requirements:
-        idSwitchs: '\d+'
-        
-get_switchs_details:
-    path: /{idSwitchs}/details
-    controller: 'App\Controller\Switchs\SwitchsController::getSwitchsDetails'
-    methods: [GET, OPTIONS]
-    defaults:
-        _format: json
-    requirements:
-        idSwitchs: '\d+'
-        
-        
 list_switchs:
     path: /
     controller: 'App\Controller\Switchs\SwitchsController::getSwitchss'

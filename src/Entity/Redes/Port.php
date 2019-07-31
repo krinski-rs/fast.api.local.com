@@ -26,6 +26,12 @@ class Port
 
     private $mode;
 
+    private $createdAt;
+
+    private $removedAt;
+
+    private $modifiedAt;
+
     private $vlan;
 
     private $switchs;
@@ -151,6 +157,42 @@ class Port
     public function setMode($mode): self
     {
         $this->mode = $mode;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getRemovedAt(): ?\DateTimeInterface
+    {
+        return $this->removedAt;
+    }
+
+    public function setRemovedAt(?\DateTimeInterface $removedAt): self
+    {
+        $this->removedAt = $removedAt;
+
+        return $this;
+    }
+
+    public function getModifiedAt(): ?\DateTimeInterface
+    {
+        return $this->modifiedAt;
+    }
+
+    public function setModifiedAt(?\DateTimeInterface $modifiedAt): self
+    {
+        $this->modifiedAt = $modifiedAt;
 
         return $this;
     }

@@ -25,6 +25,10 @@ class Switchs
 
     private $password;
 
+    private $community;
+
+    private $modifiedAt;
+
     private $port;
 
     private $pop;
@@ -32,8 +36,6 @@ class Switchs
     private $switchModel;
 
     private $vlan;
-
-    private $community;
 
     public function __construct()
     {
@@ -141,6 +143,30 @@ class Switchs
         return $this;
     }
 
+    public function getCommunity(): ?string
+    {
+        return $this->community;
+    }
+
+    public function setCommunity(?string $community): self
+    {
+        $this->community = $community;
+
+        return $this;
+    }
+
+    public function getModifiedAt(): ?\DateTimeInterface
+    {
+        return $this->modifiedAt;
+    }
+
+    public function setModifiedAt(?\DateTimeInterface $modifiedAt): self
+    {
+        $this->modifiedAt = $modifiedAt;
+
+        return $this;
+    }
+
     /**
      * @return Collection|Port[]
      */
@@ -205,18 +231,6 @@ class Switchs
     {
         $this->vlan = $vlan;
 
-        return $this;
-    }
-    
-    public function getCommunity(): ?string
-    {
-        return $this->community;
-    }
-    
-    public function setCommunity(?string $community): self
-    {
-        $this->community = $community;
-        
         return $this;
     }
 }

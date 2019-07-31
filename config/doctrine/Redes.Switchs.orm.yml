@@ -74,6 +74,10 @@ App\Entity\Redes\Switchs:
             length: 50
             options:
                 fixed: false
+        modifiedAt:
+            type: datetime
+            nullable: true
+            column: modified_at
     manyToOne:
         pop:
             targetEntity: App\Entity\Redes\Pop
@@ -108,6 +112,9 @@ App\Entity\Redes\Switchs:
     oneToMany:
         port:
             targetEntity: App\Entity\Redes\Port
+            orderBy:
+                type: ASC
+                numbering: ASC
             cascade:
                 - persist
                 - merge

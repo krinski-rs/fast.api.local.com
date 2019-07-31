@@ -7,16 +7,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use App\Services\Switchs;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Monolog\Logger;
 
 class SwitchsController extends AbstractController
 {    
     private $objSwitchs = NULL;
-    private $objLogger  = NULL;
     
-    public function __construct(Switchs $objSwitchs, Logger $objLogger){
+    public function __construct(Switchs $objSwitchs){
         $this->objSwitchs = $objSwitchs;
-        $this->objLogger = $objLogger;
     }
         
     public function postSwitchs(Request $objRequest)
@@ -50,48 +47,13 @@ class SwitchsController extends AbstractController
             return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-    
-    public function getSwitchsStatus(Request $objRequest, int $idSwitchs)
-    {
-        try {
-            if(!$this->objSwitchs instanceof Switchs){
-                return new JsonResponse(['message'=> 'Class "App\Services\Switchs not found."'], Response::HTTP_INTERNAL_SERVER_ERROR);
-            }
-            $objSwitchs = $this->objSwitchs->status($idSwitchs);
-            return new JsonResponse($objSwitchs, Response::HTTP_OK);
-        } catch (NotFoundHttpException $e) {
-            return new JsonResponse(NULL, Response::HTTP_NOT_FOUND);
-        } catch (\RuntimeException $e) {
-            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_PRECONDITION_FAILED);
-        } catch (\Exception $e) {
-            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
-    
-    public function getSwitchsDetails(Request $objRequest, int $idSwitchs)
-    {
-        try {
-            if(!$this->objSwitchs instanceof Switchs){
-                return new JsonResponse(['message'=> 'Class "App\Services\Switchs not found."'], Response::HTTP_INTERNAL_SERVER_ERROR);
-            }
-            $objSwitchs = $this->objSwitchs->details($idSwitchs);
-            return new JsonResponse($objSwitchs, Response::HTTP_OK);
-        } catch (NotFoundHttpException $e) {
-            return new JsonResponse(NULL, Response::HTTP_NOT_FOUND);
-        } catch (\RuntimeException $e) {
-            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_PRECONDITION_FAILED);
-        } catch (\Exception $e) {
-            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
-    
+        
     public function getSwitchss(Request $objRequest)
     {        
         try {
             if(!$this->objSwitchs instanceof Switchs){
                 return new JsonResponse(['message'=> 'Class "App\Services\Switchs not found."'], Response::HTTP_INTERNAL_SERVER_ERROR);
             }
-            $this->objLogger->error('CONTROLADOR', ['jgjggjgjgj']);
             $arraySwitchs = $this->objSwitchs->list($objRequest);
             return new JsonResponse($arraySwitchs, Response::HTTP_OK);
         } catch (NotFoundHttpException $e) {

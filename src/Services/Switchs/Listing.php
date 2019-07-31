@@ -3,6 +3,7 @@ namespace App\Services\Switchs;
 
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Collections\Criteria;
 
 class Listing
 {
@@ -32,6 +33,8 @@ class Listing
             $objRepositorySwitchs = $this->objEntityManager->getRepository('AppEntity:Redes\Switchs');
             $criteria = [];
             $objQueryBuilder = $objRepositorySwitchs->createQueryBuilder('swit');
+            $objQueryBuilder->select('DISTINCT swit');
+            $objQueryBuilder->innerJoin('swit.port', 'port');
             $objExprEq = $objQueryBuilder->expr()->isNull('swit.removedAt');
             $objQueryBuilder->andWhere($objExprEq);
             
@@ -52,6 +55,11 @@ class Listing
                 $objQueryBuilder->andWhere($objExprEq);
                 $criteria['createdAt'] = $objRequest->get('createdAt', null);
             }
+            if($objRequest->get('id', false)){
+                $objExprEq = $objQueryBuilder->expr()->eq('swit.id', ':id');
+                $objQueryBuilder->andWhere($objExprEq);
+                $criteria['id'] = $objRequest->get('id', null);
+            }
             
             if(count($criteria)){
                 $objQueryBuilder->setParameters($criteria);
@@ -63,15 +71,24 @@ class Listing
             $objQueryBuilder->setFirstResult($offset);
             $objQueryBuilder->setMaxResults($limit);
             
+            
+//             $objQueryBuilder->orderBy('swit.id', 'ASC');
+            $objCriteriaOrderBy = Criteria::create()->orderBy(['swit.id'=>'ASC']);
+            $objQueryBuilder->addCriteria($objCriteriaOrderBy);
+            $objQueryBuilder->groupBy('swit.id'); 
+            
+            
+                        
             $arraySwitchs['data'] = $objQueryBuilder->getQuery()->getResult();
-            $objQueryBuilder->select('count(swit.id) AS total');
+            
+            $objQueryBuilder->resetDQLParts(['groupBy', 'orderBy']);
+            $objQueryBuilder->select('count(DISTINCT swit.id) AS total');
             $objQueryBuilder->setFirstResult(0);
             $objQueryBuilder->setMaxResults(1);
             $resultSet = $objQueryBuilder->getQuery()->getResult();
             $arraySwitchs['total'] = $resultSet[0]['total'];
             $arraySwitchs['offset'] = (integer)$objRequest->get('offset',0);
             $arraySwitchs['limit'] = (integer)$objRequest->get('limit',15);
-
             return $arraySwitchs;
         } catch (\RuntimeException $e){
             throw $e;
